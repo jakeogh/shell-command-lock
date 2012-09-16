@@ -1,10 +1,18 @@
 #!/bin/bash
-
+#
+# PUBLIC DOMAIN
+#
 # shell_command_lock - prevent identical bash/sh command lines from executing
-# concurrently. A command line is the command and it's arguments: 
+# concurrently. A command line is the command and it's arguments:
 # $0 $*
 #
-# More info: 
+# Steps:
+#	1. Generate unique and reproducible string from $0 $* that can
+#          be represented as a directory name. Sha1($0 $*) is used.
+#
+#	2. Obtain atomic lock via mkdir
+#
+# More info:
 # http://wiki.bash-hackers.org/howto/mutex
 # http://mywiki.wooledge.org/BashFAQ/045
 #
@@ -14,45 +22,36 @@
 # mkdir ~/bin && \
 # ln -s ~/repos/shell_command_lock ~/bin/shell_command_lock && \
 # echo "$PATH" | grep ~/bin || \
-# { echo "add PATH=$PATH:$HOME/bin to ~/.bash_profile" ; } && \ 
+# { echo "add PATH=$PATH:$HOME/bin to ~/.bash_profile" ; } && \
 # echo "~/bin is in your PATH. All set."
 #
 # Usage: Add the line:
-# 
+#
 # source sh_exclusive_command_lock
 #
 # before the critical section in your script. The lock will be removed when the
 # parent script terminates (see trap below).
 #
-# Requires: sha1sum 
+# Requires: sha1sum
 #
-# 	Implements atomic locking so that two identical COMMAND LINES can not
-#       run at the same time.
-#
-#	Steps:
-#		1. Generate unique and reproducible string from $0 $* that can
-#	           be represented as a directory name. Sha1($0 $*) is used.
-#
-#		2. Obtain atomic lock via mkdir
 #
 
-
-lockdir_name=$(echo $0 $* | sha1sum)
+lockdir_name=$(echo $0 $* | sha1sum | cut -d ' ' -f 1)
 lockdir="/dev/shm/${lockdir_name}" 	# using tempfs so we loose orphaned and
 					# old lockdirs on reboot
 
-remove_lock()
+remove_lock()	#mv is safer than rm, as a bonus we get a lock history
 {
         timestamp=$(date +%s.%N) || echo "Unable to get timestamp"
         mv -- "${lockdir}" "${lockdir}.old.lock.${timestamp}"
 }
 
-if ! mkdir "${lockdir}" 2>/dev/null; then	
-    echo "$0 $* is already running." >&2	
+if ! mkdir "${lockdir}" 2>/dev/null; then
+    echo "$0 $* is already running." >&2
     exit 1
 fi
 
-trap remove_lock ERR INT TERM EXIT
+trap remove_lock ERR INT TERM EXIT	# is this a complete list?
 
-# Note that if you CTRL-c the parent script, remove_lock() may get called 
+# Note that if you CTRL-c the parent script, remove_lock() may get called
 # more than once.
