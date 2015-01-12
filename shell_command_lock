@@ -3,48 +3,38 @@
 # shell_command_lock - Atomic locking for shell commands.
 # https://github.com/jakeogh/shell_command_lock
 
-lock_folder_99c850a32="/dev/shm" 	# using tempfs to delete orphaned
+lock_folder_99c850a32="/dev/shm"	# using tempfs to delete orphaned
 					# locks on reboot
 
 if [ ! -d "${lock_folder_99c850a32}" ]; then
-	echo "Error: ${lock_folder_99c850a32} is not a directory. Exiting." >&2
+	echo "ERROR: [$$] $0 $* ${lock_folder_99c850a32} not a directory." >&2
 	exit 1
 fi
-
 
 lock_name_99c850a32=$(set -o pipefail ; \
-		      echo "$0 $*" | sha1sum | cut -d ' ' -f 1) \
-	|| { echo "Error generating lock_name. Exiting" >&2 ; exit 1 ; }
-
+	echo "$0 $*" | sha1sum | cut -d ' ' -f 1) \
+	|| { echo "ERROR: [$$] $0 $* generating lock_name." >&2 ; exit 1 ; }
 
 if [ "${#lock_name_99c850a32}" != "40" ]; then
-	echo "Error: lock_name \"${lock_name_99c850a32}"\"
-	echo "is not (sha1) 40 bytes long. Exiting" >&2
+	echo "ERROR: [$$] $0 $* lock_name \"${lock_name_99c850a32}"\"
+	echo "is not (sha1) 40 bytes long." >&2
 	exit 1
 fi
-
 
 lock_99c850a32="${lock_folder_99c850a32}/lock_${lock_name_99c850a32}"
 
-# setting trap before creating lock
-# hm likely bug, this trap exits with $?
-# which is Exit status of a command, function, or the script itself,
-# This makes it impossible to exit 1, since "exit 1" below calls this trap, which exits 0
+if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then # got lock
+	# setting trap after creating lock
+	# this must be done after, otherwise locked-out scripts will delete
+	# the lock becuase they set the trap before they attempt to acquire
+	# the lock.
+	trap 'unlink -- "${lock_99c850a32}"' \
+		INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
-#old:
-#trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
-#	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
-
-#new:
-trap 'unlink -- "${lock_99c850a32}"' \
-	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
-
-
-if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then # got a lock
-#  	echo "Locking succeeded: ${lock_99c850a32}" >&2
+#	echo "Locking succeeded: ${lock_99c850a32}" >&2
 	echo "$$" >> "${lock_99c850a32}"
 else
-	echo "[$$] $0 $* Locking failed: ${lock_99c850a32}" >&2
-	echo "[$$] $0 $* is/was already running. Exiting (1)." >&2
+	echo "ERROR: [$$] $0 $* Locking failed: ${lock_99c850a32}" >&2
+	echo "ERROR: [$$] $0 $* is/was already running. Exiting (1)." >&2
 	exit 1
 fi
