@@ -24,7 +24,7 @@
 # http://wiki.grzegorz.wierzowiecki.pl/code:mutex-in-bash
 # http://code.google.com/p/pylockfile/
 # https://github.com/skx/sysadmin-util/blob/master/with-lock
-# 
+# https://github.com/jaysoffian/dotlock
 #
 # Notes:
 #	This script attempts to strictly POSIX (no extensions) compliant.
