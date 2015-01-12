@@ -62,6 +62,10 @@ To use, insert:
 
 source shell_command_lock
 
+or
+
+. shell_command_lock (avoids the 'source' bashism)
+
 before the critical section in the parent script. The lock is removed when
 the parent script terminates via the trap below.
 
@@ -80,4 +84,4 @@ Known Bugs:
 
 1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 
-
+2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
