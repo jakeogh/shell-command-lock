@@ -3,8 +3,8 @@
 # shell_command_lock - Atomic locking for shell commands.
 # https://github.com/jakeogh/shell_command_lock
 
-lock_folder_99c850a32="/dev/shm" 	#using tempfs to delete orphaned
-					#locks on reboot
+lock_folder_99c850a32="/dev/shm" 	# using tempfs to delete orphaned
+					# locks on reboot
 
 if [ ! -d "${lock_folder_99c850a32}" ]; then
 	echo "Error: ${lock_folder_99c850a32} is not a directory. Exiting." >&2
@@ -31,11 +31,11 @@ trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
 	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
 
-if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then #got a lock
+if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then # got a lock
 #  	echo "Locking succeeded: ${lock_99c850a32}" >&2
 	echo "$$" >> "${lock_99c850a32}"
 else
-	echo "Locking failed: ${lock_99c850a32} - Exiting" >&2
-	echo "$0 $* is already running." >&2
+	echo "Locking failed: ${lock_99c850a32}" >&2
+	echo "$0 $* is/was already running. Exiting." >&2
 	exit 1
 fi

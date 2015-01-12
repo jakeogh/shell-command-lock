@@ -35,6 +35,10 @@ https://github.com/jaysoffian/dotlock
 
 http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
 
+http://apenwarr.ca/log/?m=201012#13
+
+https://news.ycombinator.com/item?id=2000349
+
 Notes:
 
 This script attempts to strictly POSIX (no extensions) compliant.
