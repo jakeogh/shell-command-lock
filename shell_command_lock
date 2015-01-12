@@ -7,7 +7,7 @@
 # Prevent identical command lines from executing concurrently.
 # A command line is the combination of the command and it's arguments: $0 $*
 #
-# Requires: sha1sum
+# Requires: sh, sha1sum
 #
 # Steps:
 #	1. Generate unique and reproducible string from $0 $* that can
@@ -15,15 +15,21 @@
 #
 #	2. Obtain atomic lock
 #
+#	3. Write $$ to the lockfile
+#
 # More info:
 # http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
 # http://wiki.bash-hackers.org/howto/mutex
 # http://mywiki.wooledge.org/BashFAQ/045
 # http://wiki.grzegorz.wierzowiecki.pl/code:mutex-in-bash
 # http://code.google.com/p/pylockfile/
+# https://github.com/skx/sysadmin-util/blob/master/with-lock
+# 
 #
 # Notes:
 #	This script attempts to strictly POSIX (no extensions) compliant.
+#
+#	It does not depend on bash specific features.
 #
 #	Redirection using noclobber is the atomic locking primitive used
 #	instead of mkdir because in it's faster.
@@ -99,6 +105,7 @@ if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then #got a lock
 	trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
 	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 #  	echo "Locking succeeded: ${lock_99c850a32}" >&2
+	echo "$$" >> "${lock_99c850a32}"
 else
 	echo "Locking failed: ${lock_99c850a32} - Exiting" >&2
 	echo "$0 $* is already running." >&2
