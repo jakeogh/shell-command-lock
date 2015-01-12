@@ -76,5 +76,4 @@ Known Bugs:
 
 1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 
-2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
 

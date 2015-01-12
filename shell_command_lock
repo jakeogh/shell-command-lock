@@ -26,11 +26,12 @@ fi
 
 lock_99c850a32="${lock_folder_99c850a32}/lock_${lock_name_99c850a32}"
 
+# setting trap before creating lock
+trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
+	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
+
 
 if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then #got a lock
-	# setting trap asap
-	trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
-	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 #  	echo "Locking succeeded: ${lock_99c850a32}" >&2
 	echo "$$" >> "${lock_99c850a32}"
 else
