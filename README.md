@@ -10,12 +10,12 @@ https://github.com/jakeogh/shell_command_lock
 Requires: sh, sha1sum
 
 Steps:
-	1. Generate unique and reproducible string from $0 $* that can
-         be represented as a file name. sha1($0 $*) is used.
 
-	2. Obtain atomic lock
+1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
 
-	3. Write $$ to the lockfile
+2. Obtain atomic lock
+
+3. Write $$ to the lockfile
 
 More info:
 
@@ -28,18 +28,18 @@ https://github.com/skx/sysadmin-util/blob/master/with-lock
 https://github.com/jaysoffian/dotlock
 http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
 
- Notes:
-	This script attempts to strictly POSIX (no extensions) compliant.
+Notes:
 
-	It does not depend on bash specific features.
+This script attempts to strictly POSIX (no extensions) compliant.
 
-	Redirection using noclobber is the atomic locking primitive used
-	instead of mkdir because in it's faster.
+It does not depend on bash specific features.
 
-	Benchmarks:
-		time for x in {1..24000} ; do mkdir lock ; rmdir lock ; done
+Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
 
-		time for x in {1..24000} ; do set -o noclobber; : > lock ; unlink lock ; done
+Benchmarks:
+	time for x in {1..24000} ; do mkdir lock ; rmdir lock ; done
+
+	time for x in {1..24000} ; do set -o noclobber; : > lock ; unlink lock ; done
 
 
 Install: Place in $PATH.
