@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "[$$] $0 in a non-critical section, about to acquire lock"
+
+. ./shell_command_lock
+
+echo "[$$] $0 in a critical section, about to test lock"
+
+./test_locking && { echo "[$$] $0 ERROR: Locking Failed." ; exit 1 ; } || \
+	echo "[$$] $0 You should see 2 error messages with a different PID than [$$]"
+	echo "[$$] $0 You shoud NOT see a message starting with \"unlink: cannot unlink\""
+	echo "[$$] $0 Lock test completed sucessfully."
+
+exit 0
