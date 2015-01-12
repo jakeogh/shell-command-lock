@@ -1,11 +1,11 @@
-PUBLIC DOMAIN
-
-https://github.com/jakeogh/shell_command_lock
-
 shell_command_lock - Atomic locking for shell commands.
 
 Prevent identical command lines from executing concurrently.
 A command line is the combination of the command and it's arguments: $0 $*
+
+PUBLIC DOMAIN
+
+https://github.com/jakeogh/shell_command_lock
 
 Requires: sh, sha1sum
 
@@ -18,6 +18,7 @@ Steps:
 	3. Write $$ to the lockfile
 
 More info:
+
 http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
 http://wiki.bash-hackers.org/howto/mutex
 http://mywiki.wooledge.org/BashFAQ/045
@@ -27,7 +28,7 @@ https://github.com/skx/sysadmin-util/blob/master/with-lock
 https://github.com/jaysoffian/dotlock
 http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
 
-Notes:
+ Notes:
 	This script attempts to strictly POSIX (no extensions) compliant.
 
 	It does not depend on bash specific features.
@@ -55,22 +56,17 @@ the parent script terminates via the trap below.
 
 Unknown Bugs:
 
-	Exist. Fixes/improvements/suggestions appreciated.
+Exist. Fixes/improvements/suggestions appreciated.
 
-	This script should have no effect on the parent script other
-	than locking.
+This script should have no effect on the parent script other than locking.
 
-	The variable names used have random strings appended to prevent
-	collisions with common names like $lock in the parent script.
+The variable names have random strings appended to prevent collisions with names in the parent script.
 
-	The set commands are done in subshells so we don't need to save and
-	restore the state.
+The set commands are done in subshells so we don't need to save and restore the state.
 
 Known Bugs:
 
-	1. IMPORTANT: If the trap is re-defined in the parent script,
-		      then that trap will need to handle deleting the lock.
+1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 
-	2. The lockfile is orphaned if a exit signal happens after the lock
-	   is obtained and before trap is set.
+2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
 
