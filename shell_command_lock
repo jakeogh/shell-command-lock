@@ -27,7 +27,16 @@ fi
 lock_99c850a32="${lock_folder_99c850a32}/lock_${lock_name_99c850a32}"
 
 # setting trap before creating lock
-trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
+# hm likely bug, this trap exits with $?
+# which is Exit status of a command, function, or the script itself,
+# This makes it impossible to exit 1, since "exit 1" below calls this trap, which exits 0
+
+#old:
+#trap 'unlink -- "${lock_99c850a32}" ; exit $?' \
+#	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
+
+#new:
+trap 'unlink -- "${lock_99c850a32}"' \
 	INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
 
@@ -35,7 +44,7 @@ if ( set -o noclobber; : > "${lock_99c850a32}" ) 2> /dev/null; then # got a lock
 #  	echo "Locking succeeded: ${lock_99c850a32}" >&2
 	echo "$$" >> "${lock_99c850a32}"
 else
-	echo "Locking failed: ${lock_99c850a32}" >&2
-	echo "$0 $* is/was already running. Exiting." >&2
+	echo "[$$] $0 $* Locking failed: ${lock_99c850a32}" >&2
+	echo "[$$] $0 $* is/was already running. Exiting (1)." >&2
 	exit 1
 fi
