@@ -35,7 +35,6 @@ if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
 	echo "$$" >> "${lock_scl}"
 else
 	echo "ERROR: [$$] $0 $* Locking failed: ${lock_scl}" >&2
-	/bin/ls -al "${lock_scl}"
 	echo "ERROR: [$$] $0 $* is/was already running. Exiting (1)." >&2
 	exit 1
 fi
