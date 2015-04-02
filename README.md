@@ -51,9 +51,9 @@ Redirection using noclobber is the atomic locking primitive used instead of mkdi
 
 Benchmarks:
 
- time for x in {1..24000} ; do mkdir lock ; rmdir lock ; done
+ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 
- time for x in {1..24000} ; do set -o noclobber; : > lock ; unlink lock ; done
+ time for x in {1..24000} ; do set -o noclobber; : > lock ; /usr/bin/unlink lock ; done
 
 
 Install: Place in $PATH.
