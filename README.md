@@ -10,9 +10,9 @@ Requires: sh, sha1sum
 
 ###Theory:
 
-- 1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
+- 1. Generate unique and reproducible string from $0 $* (the script file name and all it's arguments). sha1sum($0 $*) is used.
 - 2. Obtain atomic lock.
-- 3. Write $$ to the lockfile.
+- 3. Write $$ (the current PID) to the lockfile.
 
 ###Install: Place in $PATH.
 
