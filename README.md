@@ -41,35 +41,32 @@ Redirection using noclobber is the atomic locking primitive used instead of mkdi
 
 Benchmarks:
 ``` sh
- $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
+$ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 ```
 ``` sh
- $ time for x in {1..24000} ; do set -o noclobber; : > lock ; /usr/bin/unlink lock ; done
+$ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
 ```
 
 Install: Place in $PATH.
 
-mkdir ~/bin ; mv shell_command_lock ~/bin/shell_command_lock
+```sh
+$ mkdir ~/bin ; mv shell_command_lock ~/bin/shell_command_lock
+```
 
 To use, insert:
-
+```
 source shell_command_lock
-
+```
 or
-
+```
 . shell_command_lock (avoids the 'source' bashism)
-
+```
 before the critical section in the parent script. The lock is removed when
 the parent script terminates via the trap below.
 
-
-Unknown Bugs:
-
-Exist. Fixes/improvements/suggestions appreciated.
-
 This script should have no effect on the parent script other than locking.
 
-The variable names have random strings appended to prevent collisions with names in the parent script.
+The variable names are set to readonly to prevent silent collisions with names in the parent script.
 
 The set commands are done in subshells so we don't need to save and restore the state.
 
