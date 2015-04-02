@@ -40,11 +40,12 @@ It does not depend on bash specific features.
 Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
 
 Benchmarks:
-
- time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
-
- time for x in {1..24000} ; do set -o noclobber; : > lock ; /usr/bin/unlink lock ; done
-
+``` sh
+ $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
+```
+``` sh
+ $ time for x in {1..24000} ; do set -o noclobber; : > lock ; /usr/bin/unlink lock ; done
+```
 
 Install: Place in $PATH.
 
