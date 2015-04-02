@@ -11,11 +11,9 @@ Requires: sh, sha1sum
 
 Steps:
 
-1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
-
-2. Obtain atomic lock
-
-3. Write $$ to the lockfile
+- 1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
+- 2. Obtain atomic lock
+- 3. Write $$ to the lockfile
 
 More info:
 
