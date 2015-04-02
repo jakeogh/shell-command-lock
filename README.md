@@ -59,19 +59,14 @@ source shell_command_lock
 ```
 or
 ```
-. shell_command_lock (avoids the 'source' bashism)
+. shell_command_lock #(avoids the 'source' bashism)
 ```
 before the critical section in the parent script. The lock is removed when
 the parent script terminates via the trap below.
 
-This script should have no effect on the parent script other than locking.
-
-The variable names are set to readonly to prevent silent collisions with names in the parent script.
-
-The set commands are done in subshells so we don't need to save and restore the state.
+This script should have no effect on the parent script other than locking. The variable names are set to readonly to prevent silent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore the state.
 
 Known Bugs:
 
-1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
-
-2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
+- 1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
+- 2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
