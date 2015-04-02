@@ -31,11 +31,9 @@ More info:
 
 Notes:
 
-This script attempts to strictly POSIX (no extensions) compliant.
-
-It does not depend on bash specific features.
-
-Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
+- This script attempts to strictly POSIX (no extensions) compliant.
+- It does not depend on bash specific features.
+- Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
 
 Benchmarks:
 ``` sh
