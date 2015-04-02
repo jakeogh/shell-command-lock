@@ -19,27 +19,27 @@ Steps:
 
 More info:
 
-man flock
+ - man flock
 
-http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
+ - http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
 
-http://wiki.bash-hackers.org/howto/mutex
+ - http://wiki.bash-hackers.org/howto/mutex
 
-http://mywiki.wooledge.org/BashFAQ/045
+ - http://mywiki.wooledge.org/BashFAQ/045
 
-http://wiki.grzegorz.wierzowiecki.pl/code:mutex-in-bash
+ - http://wiki.grzegorz.wierzowiecki.pl/code:mutex-in-bash
 
-http://code.google.com/p/pylockfile/
+ - http://code.google.com/p/pylockfile/
 
-https://github.com/skx/sysadmin-util/blob/master/with-lock
+ - https://github.com/skx/sysadmin-util/blob/master/with-lock
 
-https://github.com/jaysoffian/dotlock
+ - https://github.com/jaysoffian/dotlock
 
-http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
+ - http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
 
-http://apenwarr.ca/log/?m=201012#13
+ - http://apenwarr.ca/log/?m=201012#13
 
-https://news.ycombinator.com/item?id=2000349
+ - https://news.ycombinator.com/item?id=2000349
 
 Notes:
 
