@@ -12,8 +12,8 @@ Requires: sh, sha1sum
 ###Steps:
 
 - 1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
-- 2. Obtain atomic lock
-- 3. Write $$ to the lockfile
+- 2. Obtain atomic lock.
+- 3. Write $$ to the lockfile.
 
 ###More info:
 
@@ -35,18 +35,18 @@ Requires: sh, sha1sum
 - It does not depend on bash specific features.
 - Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
 
-###Benchmarks:
+###Benchmarks (mkdir vs noclobber):
 ``` sh
 $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 ```
-``` sh
+```sh
 $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
 ```
 
 ###Install: Place in $PATH.
 
 ```sh
-$ mkdir ~/bin ; mv shell_command_lock ~/bin/shell_command_lock
+$ mkdir ~/bin ; ln -s -r shell_command_lock ~/bin/shell_command_lock
 ```
 
 ###Use:
