@@ -1,11 +1,10 @@
 shell_command_lock - Atomic locking for shell commands.
 
-Prevent identical command lines from executing concurrently.
-A command line is the combination of the command and it's arguments: $0 $*
-
-PUBLIC DOMAIN
+**PUBLIC DOMAIN**
 
 https://github.com/jakeogh/shell_command_lock
+
+Prevent identical command lines from executing concurrently. A command line is the combination of the command and it's arguments: $0 $*
 
 Requires: sh, sha1sum
 
