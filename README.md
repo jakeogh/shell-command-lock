@@ -9,13 +9,13 @@ https://github.com/jakeogh/shell_command_lock
 
 Requires: sh, sha1sum
 
-###Steps:
+###Theory:
 
 - 1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
 - 2. Obtain atomic lock.
 - 3. Write $$ to the lockfile.
 
-###More info:
+###More information:
 
  - man flock
  - http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
@@ -29,11 +29,11 @@ Requires: sh, sha1sum
  - http://apenwarr.ca/log/?m=201012#13
  - https://news.ycombinator.com/item?id=2000349
 
-###Notes:
+###Design notes:
 
-- This script attempts to strictly POSIX (no extensions) compliant.
-- It does not depend on bash specific features.
-- Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
+- This script attempts to be strictly POSIX (no extensions) compliant.
+- This script does not depend on bash specific features.
+- Redirection using noclobber is the atomic locking primitive instead of mkdir because in it's faster.
 
 ###Benchmarks (mkdir vs noclobber):
 ``` sh
@@ -54,7 +54,9 @@ $ mkdir ~/bin ; ln -s -r shell_command_lock ~/bin/shell_command_lock
 insert:
 ```sh
 source shell_command_lock
-```or```sh
+```
+or
+```sh
 . shell_command_lock #(avoids the 'source' bashism)
 ```
 before the critical section in the parent script. The lock is removed when the parent script terminates via the trap below.
