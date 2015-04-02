@@ -52,11 +52,9 @@ $ mkdir ~/bin ; ln -s -r shell_command_lock ~/bin/shell_command_lock
 ###Use:
 
 insert:
-```
+```sh
 source shell_command_lock
-```
-or
-```
+```or```sh
 . shell_command_lock #(avoids the 'source' bashism)
 ```
 before the critical section in the parent script. The lock is removed when the parent script terminates via the trap below.
