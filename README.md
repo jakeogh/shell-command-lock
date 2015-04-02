@@ -9,13 +9,13 @@ https://github.com/jakeogh/shell_command_lock
 
 Requires: sh, sha1sum
 
-Steps:
+###Steps:
 
 - 1. Generate unique and reproducible string from $0 $* that can be represented as a file name. sha1($0 $*) is used.
 - 2. Obtain atomic lock
 - 3. Write $$ to the lockfile
 
-More info:
+###More info:
 
  - man flock
  - http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
@@ -29,13 +29,13 @@ More info:
  - http://apenwarr.ca/log/?m=201012#13
  - https://news.ycombinator.com/item?id=2000349
 
-Notes:
+###Notes:
 
 - This script attempts to strictly POSIX (no extensions) compliant.
 - It does not depend on bash specific features.
 - Redirection using noclobber is the atomic locking primitive used instead of mkdir because in it's faster.
 
-Benchmarks:
+###Benchmarks:
 ``` sh
 $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 ```
@@ -43,13 +43,15 @@ $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
 ```
 
-Install: Place in $PATH.
+###Install: Place in $PATH.
 
 ```sh
 $ mkdir ~/bin ; mv shell_command_lock ~/bin/shell_command_lock
 ```
 
-To use, insert:
+###Use:
+
+insert:
 ```
 source shell_command_lock
 ```
@@ -57,12 +59,11 @@ or
 ```
 . shell_command_lock #(avoids the 'source' bashism)
 ```
-before the critical section in the parent script. The lock is removed when
-the parent script terminates via the trap below.
+before the critical section in the parent script. The lock is removed when the parent script terminates via the trap below.
 
 This script should have no effect on the parent script other than locking. The variable names are set to readonly to prevent silent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore the state.
 
-Known Bugs:
+###Bugs: (unavoidable?)
 
 - 1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 - 2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
