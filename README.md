@@ -60,7 +60,7 @@ $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock
 - If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 - The lockfile is orphaned if a exit signal happens after the lock is obtained and before the trap is set.
 
-**More information:**
+**More info:**
 
  - man flock
  - http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
