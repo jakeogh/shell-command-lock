@@ -19,7 +19,7 @@ Requires: sh, sha1sum
 Place in $PATH.
 
 ```
-$ git clone https://github.com/jakeogh/shell-command-lock && sudo cp shell-command-lock/shell-command-lock/shell-command-lock /usr/bin/shell-command-lock
+$ git clone https://github.com/jakeogh/shell-command-lock && sudo cp shell-command-lock/shell-command-lock /usr/bin/shell-command-lock
 ```
 
 **Use:**
