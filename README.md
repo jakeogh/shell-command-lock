@@ -8,13 +8,13 @@ Prevent identical command lines from executing concurrently. A command line is t
 
 Requires: sh, sha1sum
 
-*Theory:*
+**Theory:**
 
 - 1. Generate unique and reproducible string from $0 $* (the script file name and all it's arguments). sha1sum($0 $*) is used.
 - 2. Obtain atomic lock.
 - 3. Write $$ (the current PID) to the lockfile.
 
-*Install:*
+**Install:**
 
 Place in $PATH.
 
@@ -22,7 +22,7 @@ Place in $PATH.
 $ mkdir ~/bin ; ln -s -r shell_command_lock ~/bin/shell_command_lock
 ```
 
-*Use:*
+**Use:**
 
 insert:
 ```sh
@@ -36,7 +36,7 @@ _before_ the critical section in the parent script. The lock is removed when the
 
 This script should have no effect on the parent script other than locking. The variable names are set to readonly to prevent silent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore the state.
 
-*Design notes:*
+**Design notes:**
 
 - This script attempts to be strictly POSIX (no extensions) compliant.
 - This script does not depend on bash specific features.
@@ -50,12 +50,12 @@ $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
 ```
 
-*Bugs: (unavoidable?)*
+**Bugs: (unavoidable?)**
 
 - 1. IMPORTANT: If the trap is re-defined in the parent script, then that trap will need to handle deleting the lock.
 - 2. The lockfile is orphaned if a exit signal happens after the lock is obtained and before trap is set.
 
-*More information:*
+**More information:**
 
  - man flock
  - http://www.davidpashley.com/articles/writing-robust-shell-scripts.html
