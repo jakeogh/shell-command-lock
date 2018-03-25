@@ -23,7 +23,7 @@ Place in $PATH.
     sudo cp shell-command-lock/shell-command-lock /usr/bin/shell-command-lock
 ```
 
-**Gentoo Install**
+**Gentoo Install:**
 ```
    su
    layman -o https://raw.githubusercontent.com/jakeogh/jakeogh/master/jakeogh.xml -f -a jakeogh
