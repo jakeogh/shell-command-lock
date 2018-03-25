@@ -41,7 +41,7 @@ if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
 
     printf "%s" "$$">> "${lock_scl}"
 else
-    printf "ERROR: [%s] %s %s Locking failed: %s\n" "$$" "$0" "$*" "${lock_scl}" >&2
-    printf "ERROR: [%s] %s %s is/was already running. Exiting (1).\n" "$$" "$0" "$*" >&2
+    printf 'ERROR: [%s] %s %s Locking failed: %s\n' "$$" "$0" "$*" "${lock_scl}" >&2
+    printf 'ERROR: [%s] %s %s is/was already running. Exiting (1).\n' "$$" "$0" "$*" >&2
     exit 1
 fi
