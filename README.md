@@ -11,7 +11,7 @@ Requires: sh, sha1sum
 
  1. Generate unique and reproducible string from $0 $* (the script file name and all it's arguments). sha1sum($0 $*) is used.
  2. Obtain an atomic lock using the filesystem. Exit on failure (since the same command is already running).
- 3. Write $$ (the current PID) to the lockfile. This is not critical, but it is nice to have.
+ 3. Write $$ (the current PID) to the lockfile. This is not critical, but nice to have.
  4. Delete the lockfile.
 
 **Install:**
