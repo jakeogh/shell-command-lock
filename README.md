@@ -29,10 +29,12 @@ $ mkdir ~/bin ; ln -s -r shell-command-lock ~/bin/shell-command-lock
 insert:
 ```
 source shell-command-lock
-```or```
+```
+or
+```
 . shell-command-lock #(avoids the 'source' bashism)
 ```
-_before_ the critical section in the parent script. The lock is removed when the parent script terminates via the trap below.
+_before_ the critical section in the parent script. The lock is removed when the parent script terminates via the trap.
 
 This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore state.
 
