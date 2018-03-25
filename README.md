@@ -49,7 +49,7 @@ This script should have no effect on the parent script other than locking. The v
 - Does not depend on bash specific features.
 - Redirection using noclobber is the atomic locking primitive instead of mkdir because it's faster.
 
-**Benchmarks (mkdir vs noclobber):**
+**Benchmark (mkdir vs noclobber):**
 ```
 $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
