@@ -1,17 +1,17 @@
 #!/bin/sh
 
-# shell_command_lock - Atomic locking for shell commands.
+# shell_command_lock - Atomic locking for commands.
 # https://github.com/jakeogh/shell-command-lock
 
-# using tempfs to delete orphaned locks on reboot
-readonly lock_folder_scl="/dev/shm"
+# use tempfs to delete orphaned locks on reboot
+local readonly lock_folder_scl="/dev/shm"
 
 if [ ! -d "${lock_folder_scl}" ]; then
     echo "ERROR: [$$] $0 $* ${lock_folder_scl} not a directory." >&2
     exit 1
 fi
 
-readonly lock_name_scl=$(set -o pipefail ; \
+local readonly lock_name_scl=$(set -o pipefail ; \
     echo "$0 $*" | sha1sum | cut -d ' ' -f 1) \
     || { echo "ERROR: [$$] $0 $* generating lock_name." >&2 ; exit 1 ; }
 
@@ -21,7 +21,7 @@ if [ "${#lock_name_scl}" != "40" ]; then
     exit 1
 fi
 
-readonly lock_scl="${lock_folder_scl}/lock_${lock_name_scl}"
+local readonly lock_scl="${lock_folder_scl}/lock_${lock_name_scl}"
 
 if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
     # setting trap after creating lock
