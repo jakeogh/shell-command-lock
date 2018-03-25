@@ -73,4 +73,3 @@ $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock
  - http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
  - http://apenwarr.ca/log/?m=201012#13
  - https://news.ycombinator.com/item?id=2000349
-
