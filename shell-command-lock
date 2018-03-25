@@ -8,17 +8,16 @@ type sha1sum > /dev/null || return
 readonly lock_folder_scl="/dev/shm"
 
 if [ ! -d "${lock_folder_scl}" ]; then
-    echo "ERROR: [$$] $0 $* ${lock_folder_scl} not a directory." >&2
+    printf "ERROR: [$$] $0 $* %s not a directory.\n" "${lock_folder_scl}" >&2
     exit 1
 fi
 
 readonly lock_name_scl=$(set -o pipefail ; \
-    echo "$0 $*" | sha1sum | cut -d ' ' -f 1) \
-    || { echo "ERROR: [$$] $0 $* generating lock_name." >&2 ; exit 1 ; }
+    printf "%s %s" "$0" "$*" | sha1sum | cut -d ' ' -f 1) \
+    || { printf "ERROR: [%s] %s %s generating lock_name.\n" "$$" "$0" "$*" >&2 ; exit 1 ; }
 
 if [ "${#lock_name_scl}" != "40" ]; then
-    echo "ERROR: [$$] $0 $* lock_name \"${lock_name_scl}"\"
-    echo "is not (sha1) 40 bytes long." >&2
+    printf "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" "$$" "$0" "$*" "${lock_name_scl}" >&2
     exit 1
 fi
 
@@ -31,9 +30,9 @@ if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
     trap 'unlink -- "${lock_scl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
-    echo "$$" >> "${lock_scl}"
+    printf "%s" "$$">> "${lock_scl}"
 else
-    echo "ERROR: [$$] $0 $* Locking failed: ${lock_scl}" >&2
-    echo "ERROR: [$$] $0 $* is/was already running. Exiting (1)." >&2
+    printf "ERROR: [%s] %s %s Locking failed: %s\n" "$$" "$0" "$*" "${lock_scl}" >&2
+    printf "ERROR: [%s] %s %s is/was already running. Exiting (1).\n" "$$" "$0" "$*" >&2
     exit 1
 fi
