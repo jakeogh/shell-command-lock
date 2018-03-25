@@ -12,8 +12,8 @@ if [ ! -d "${lock_folder_scl}" ]; then # todo: add test for this... not sure how
     exit 1
 fi
 
-lock_name_scl=$(printf '%s\0' "$0" "$@" | sha1sum -)
-lock_name_scl=${lock_name_scl%% *} || { printf "ERROR: [%s] %s %s generating lock filename.\n" "$$" "$0" "$@" >&2 ; exit 1 ; }
+lock_name_scl=$(printf '%s\0' "$0" "$@" | sha1sum -) || { printf "ERROR: [%s] %s %s generating lock filename with sha1sum.\n" "$$" "$0" "$@" >&2 ; exit 1 ; }
+lock_name_scl=${lock_name_scl%% *} || { printf "ERROR: [%s] %s %s truncating - from lock filename.\n" "$$" "$0" "$@" >&2 ; exit 1 ; }
 
 if [ "${#lock_name_scl}" != "40" ]; then
     printf "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" "$$" "$0" "$@" "${lock_name_scl}" >&2
