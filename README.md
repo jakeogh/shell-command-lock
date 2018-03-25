@@ -9,8 +9,9 @@ Requires: sh, sha1sum
 
 **Theory:**
 
- 1. Generate unique and reproducible string from $0 $* (the script file name and all it's arguments). sha1sum($0 $*) is used.
+ 1. Generate unique and reproducible string from $0 $* (the script name and all it's arguments). sha1sum($0 $*) is used.
  2. Obtain an atomic lock using the filesystem. Exit on failure (since the same command is already running).
+    _at this point, executing the same command (which also uses this script) should fail_
  3. Write $$ (the current PID) to the lockfile. This is not critical, but nice to have.
  4. Delete the lockfile.
 
