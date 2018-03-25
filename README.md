@@ -14,12 +14,21 @@ Requires: sh, sha1sum
  3. Write $$ (the current PID) to the lockfile. This is not critical, but nice to have.
  4. Delete the lockfile.
 
-**Install:**
+**General Install:**
 
 Place in $PATH.
 
 ```
 $ git clone https://github.com/jakeogh/shell-command-lock && sudo cp shell-command-lock/shell-command-lock /usr/bin/shell-command-lock
+```
+
+**Gentoo Install**
+```
+   su
+   layman -o https://raw.githubusercontent.com/jakeogh/jakeogh/master/jakeogh.xml -f -a jakeogh
+   echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
+   layman -S
+   emerge shell-command-lock
 ```
 
 **Use:**
