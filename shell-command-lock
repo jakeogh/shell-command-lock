@@ -12,8 +12,7 @@ if [ ! -d "${lock_folder_scl}" ]; then
     exit 1
 fi
 
-readonly lock_name_scl=$(set -o pipefail ; \
-    printf "%s %s" "$0" "$*" | sha1sum | cut -d ' ' -f 1) \
+readonly lock_name_scl=$(printf "%s\0" "$0" "$*" | sha1sum -) \
     || { printf "ERROR: [%s] %s %s generating lock_name.\n" "$$" "$0" "$*" >&2 ; exit 1 ; }
 
 if [ "${#lock_name_scl}" != "40" ]; then
