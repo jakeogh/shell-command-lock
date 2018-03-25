@@ -1,6 +1,4 @@
-*shell-command-lock - Atomic locking for shell commands.*
-
-**PUBLIC DOMAIN**
+**shell-command-lock - Atomic locking for shell commands.**
 
 https://github.com/jakeogh/shell-command-lock
 
