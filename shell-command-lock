@@ -2,6 +2,8 @@
 # shell_command_lock - Atomic locking for commands.
 # https://github.com/jakeogh/shell-command-lock
 
+type sha1sum > /dev/null || return
+
 # use tempfs to delete orphaned locks on reboot
 readonly lock_folder_scl="/dev/shm"
 
@@ -24,7 +26,7 @@ readonly lock_scl="${lock_folder_scl}/lock_${lock_name_scl}"
 
 if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
     # the trap must be set after creating lock, otherwise locked-out scripts
-    g# will delete the lock becuase they set the trap before they attempt t2
+    # will delete the lock becuase they set the trap before they attempt t2
     # acquire the lock.
     trap 'unlink -- "${lock_scl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
