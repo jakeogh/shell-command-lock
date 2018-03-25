@@ -1,4 +1,4 @@
-shell-command-lock - Atomic locking for shell commands.
+*shell-command-lock - Atomic locking for shell commands.*
 
 **PUBLIC DOMAIN**
 
