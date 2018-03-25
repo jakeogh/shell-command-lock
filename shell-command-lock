@@ -24,10 +24,9 @@ fi
 readonly lock_scl="${lock_folder_scl}/lock_${lock_name_scl}"
 
 if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
-    # setting trap after creating lock
-    # this must be done after, otherwise locked-out scripts will delete
-    # the lock becuase they set the trap before they attempt to acquire
-    # the lock.
+    # the trap must be set after creating lock, otherwise locked-out scripts
+    # will delete the lock becuase they set the trap before they attempt to
+    # acquire the lock.
     trap 'unlink -- "${lock_scl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
