@@ -19,18 +19,14 @@ Requires: sh, sha1sum
 Place in $PATH.
 
 ```
-$ mkdir ~/bin ; ln -s -r shell-command-lock ~/bin/shell-command-lock
+$ sudo ln -s -r shell-command-lock /usr/bin/shell-command-lock
 ```
 
 **Use:**
 
 insert:
 ```
-source shell-command-lock
-```
-or
-```
-. shell-command-lock #(avoids the 'source' bashism)
+. /usr/bin/shell-command-lock
 ```
 _before_ the critical section in the parent script. The lock is removed when the parent script terminates via the trap.
 
