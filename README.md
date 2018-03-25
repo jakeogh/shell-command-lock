@@ -1,4 +1,4 @@
-**shell-command-lock - Atomic locking for commands.**
+**shell-command-lock - Atomic locking for commands**
 
 https://github.com/jakeogh/shell-command-lock
 
