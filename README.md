@@ -1,4 +1,4 @@
-**shell-command-lock - Atomic locking for shell commands.**
+**shell-command-lock - Atomic locking for commands.**
 
 https://github.com/jakeogh/shell-command-lock
 
@@ -26,7 +26,7 @@ $ git clone https://github.com/jakeogh/shell-command-lock && sudo cp shell-comma
 
 insert:
 ```
-. /usr/bin/shell-command-lock
+. /usr/bin/shell-command-lock || exit 1
 ```
 _before_ the critical section in the parent script. The lock is removed when the parent script terminates via the trap.
 
