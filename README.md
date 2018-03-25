@@ -38,9 +38,9 @@ This script should have no effect on the parent script other than locking. The v
 
 **Design notes:**
 
-- This script attempts to be strictly POSIX (no extensions) compliant.
-- This script does not depend on bash specific features.
-- Redirection using noclobber is the atomic locking primitive instead of mkdir because in it's faster.
+- Attempts to be strictly POSIX compliant (no extensions).
+- Does not depend on bash specific features.
+- Redirection using noclobber is the atomic locking primitive instead of mkdir because it's faster.
 
 *Benchmarks (mkdir vs noclobber):*
 ``` sh
