@@ -5,7 +5,7 @@
 type sha1sum > /dev/null || return
 
 # use tempfs to delete orphaned locks on reboot
-readonly lock_folder_scl="/dev/shm"
+lock_folder_scl="/dev/shm"
 
 if [ ! -d "${lock_folder_scl}" ]; then
     printf 'ERROR: [$$] $0 $* %s not a directory.\n' "${lock_folder_scl}" >&2
