@@ -19,7 +19,7 @@ Requires: sh, sha1sum
 
 Place in $PATH.
 
-```sh
+```
 $ mkdir ~/bin ; ln -s -r shell-command-lock ~/bin/shell-command-lock
 ```
 
@@ -30,7 +30,7 @@ insert:
 source shell-command-lock
 ```
 or
-```sh
+```
 . shell-command-lock #(avoids the 'source' bashism)
 ```
 _before_ the critical section in the parent script. The lock is removed when the parent script terminates via the trap below.
@@ -44,10 +44,10 @@ This script should have no effect on the parent script other than locking. The v
 - Redirection using noclobber is the atomic locking primitive instead of mkdir because it's faster.
 
 *Benchmarks (mkdir vs noclobber):*
-``` sh
+```
 $ time for x in {1..24000} ; do /bin/mkdir lock ; /bin/rmdir lock ; done
 ```
-```sh
+```
 $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock ; done
 ```
 
