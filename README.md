@@ -17,7 +17,7 @@ Requires: sh, sha1sum
 
 **General Install:**
 
-Place in $PATH.
+Place in $PATH
 
 ```
     git clone https://github.com/jakeogh/shell-command-lock
