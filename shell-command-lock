@@ -8,15 +8,18 @@ type sha1sum > /dev/null || return
 lock_folder_scl="/dev/shm"
 
 if [ ! -d "${lock_folder_scl}" ]; then # todo: add test for this... not sure how
-    printf 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$@" "${lock_folder_scl}" >&2
+    printf 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$*" "${lock_folder_scl}" >&2
     exit 1
 fi
 
-lock_name_scl=$(printf '%s\0' "$0" "$@" | sha1sum -) || { printf "ERROR: [%s] %s %s generating lock filename with sha1sum.\n" "$$" "$0" "$@" >&2 ; exit 1 ; }
-lock_name_scl=${lock_name_scl%% *} || { printf "ERROR: [%s] %s %s truncating - from lock filename.\n" "$$" "$0" "$@" >&2 ; exit 1 ; }
+lock_name_scl=$(printf '%s\0' "$0" "$@" | sha1sum -) || {
+    printf >&2 'ERROR: [%s] %s %s generating lock filename with sha1sum.\n' "$$" "$0" "$*"
+    exit 1
+}
+lock_name_scl=${lock_name_scl%% *} || { printf "ERROR: [%s] %s %s truncating - from lock filename.\n" "$$" "$0" "$*" >&2 ; exit 1 ; }
 
 if [ "${#lock_name_scl}" != "40" ]; then
-    printf "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" "$$" "$0" "$@" "${lock_name_scl}" >&2
+    printf "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" "$$" "$0" "$*" "${lock_name_scl}" >&2
     exit 1
 fi
 
@@ -25,15 +28,15 @@ unset lock_folder_scl
 unset lock_name_scl
 
 if ( set -o noclobber; : > "${lock_scl}" ) 2> /dev/null; then # got lock
-    # the trap must be set after creating lock, otherwise locked-out scripts
-    # will delete the lock becuase they set the trap before they attempt t2
-    # acquire the lock.
+    # the trap must be set after creating lock, otherwise a locked-out script
+    # will delete the lock becuase it set the trap before it attempt to
+    # acquire the lock
     trap 'unlink -- "${lock_scl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
 
     printf "%s" "$$">> "${lock_scl}"
 else
-    printf "ERROR: [%s] %s %s Locking failed: %s\n" "$$" "$0" "$@" "${lock_scl}" >&2
-    printf "ERROR: [%s] %s %s is/was already running. Exiting (1).\n" "$$" "$0" "$@" >&2
+    printf "ERROR: [%s] %s %s Locking failed: %s\n" "$$" "$0" "$*" "${lock_scl}" >&2
+    printf "ERROR: [%s] %s %s is/was already running. Exiting (1).\n" "$$" "$0" "$*" >&2
     exit 1
 fi
