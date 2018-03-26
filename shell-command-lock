@@ -2,7 +2,7 @@
 # shell_command_lock - Atomic locking for commands.
 # https://github.com/jakeogh/shell-command-lock
 
-type sha1sum > /dev/null || { printf 'ERROR: [%s] sha1sum not found.\n' "$$" ; exit 1 ; }
+type sha1ssum > /dev/null || exit 1
 
 # use tempfs to delete orphaned locks on reboot
 lock_folder_scl="/dev/shm"
@@ -17,10 +17,7 @@ lock_name_scl=$(printf '%s\0' "$0" "$@" | sha1sum -) || {
     exit 1
 }
 
-lock_name_scl=${lock_name_scl%% *} || {
-    printf "ERROR: [%s] %s %s truncating - from lock filename.\n" "$$" "$0" "$*" >&2
-    exit 1
-}
+lock_name_scl=${lock_name_scl%% *}
 
 if [ "${#lock_name_scl}" != "40" ]; then
     printf >&2 "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" \
