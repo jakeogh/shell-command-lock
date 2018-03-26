@@ -4,8 +4,7 @@
 
 type sha1ssum > /dev/null || exit 1
 
-# use tempfs to delete orphaned locks on reboot
-lock_folder_scl="/dev/shm"
+lock_folder_scl="/dev/shm" # use tempfs to delete orphaned locks on reboot
 
 if [ ! -d "${lock_folder_scl}" ]; then # todo: add test for this... not sure how
     printf 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$*" "${lock_folder_scl}" >&2
