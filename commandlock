@@ -24,7 +24,7 @@ if [ "${#lock_name_cl}" != "40" ]; then
      exit 2
 fi
 
-readonly lock_cl="${lock_folder_cl}/lock_${lock_name_cl}"
+readonly lock_cl="${lock_folder_cl}/commandlock_${lock_name_cl}"
 unset lock_folder_cl
 unset lock_name_cl
 
