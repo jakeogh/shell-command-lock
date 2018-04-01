@@ -1,6 +1,6 @@
-**shell-command-lock - Atomic locking for commands**
+**commandlock - Atomic locking for commands**
 
-https://github.com/jakeogh/shell-command-lock
+https://github.com/jakeogh/commandlock
 
 Prevent identical commands from executing concurrently.
 A command is the combination of the program and it's arguments: $0 $*
@@ -20,8 +20,8 @@ Requires: sh, sha1sum
 Place in $PATH
 
 ```
-    git clone https://github.com/jakeogh/shell-command-lock
-    sudo cp shell-command-lock/shell-command-lock /usr/bin/shell-command-lock
+    git clone https://github.com/jakeogh/commandlock
+    sudo cp commandlock/commandlock /usr/bin/commandlock
 ```
 
 **Gentoo Install:**
@@ -30,14 +30,18 @@ Place in $PATH
    layman -o https://raw.githubusercontent.com/jakeogh/jakeogh/master/jakeogh.xml -f -a jakeogh
    echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
    layman -S
-   emerge shell-command-lock
+   emerge commandlock
 ```
 
 **Use:**
 
-insert:
 ```
-. /usr/bin/shell-command-lock || exit 1
+lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
+```
+
+or to use it in a script insert:
+```
+. /usr/bin/commandlock || exit 1
 ```
 _before_ the critical section in the parent script. The lock is removed via the trap when the parent script terminates.
 
