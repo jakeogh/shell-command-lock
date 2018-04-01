@@ -22,6 +22,7 @@ Place in $PATH
 ```
     git clone https://github.com/jakeogh/commandlock
     sudo cp commandlock/commandlock /usr/bin/commandlock
+    sudo cp commandlock/lock /usr/bin/lock
 ```
 
 **Gentoo Install:**
