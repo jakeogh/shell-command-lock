@@ -1,0 +1,6 @@
+#!/bin/sh
+# lock - execute command IFF command is not running.
+# https://github.com/jakeogh/commandlock
+
+source /usr/bin/commandlock || exit 1
+"$@"
