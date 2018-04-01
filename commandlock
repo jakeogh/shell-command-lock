@@ -2,7 +2,7 @@
 # commandlock - Atomic locking for commands.
 # https://github.com/jakeogh/commandlock
 
-type sha1ssum > /dev/null || exit 1
+type sha1sum > /dev/null || exit 1
 
 lock_folder_cl="/dev/shm" # use tempfs to delete orphaned locks on reboot
 
