@@ -3,6 +3,7 @@
 https://github.com/jakeogh/commandlock
 
 Prevent identical commands from executing concurrently.
+
 A command is the combination of the program and it's arguments: $0 $*
 
 Requires: sh, sha1sum
@@ -10,10 +11,14 @@ Requires: sh, sha1sum
 **Theory:**
 
  1. Generate unique and reproducible string from $0 $* (the script name and all it's arguments). sha1sum($0 $*) is used.
- 2. Obtain an atomic lock using the filesystem. Exit on failure (since the same command is already running).
-    _at this point, executing the same command (which also uses this script) should fail_
+ 2. Obtain an atomic* lock using the filesystem. Exit on failure (since the same command is already running).
+
+        _At this point, executing the same command (which also uses this script) should fail._
+
  3. Write $$ (the current PID) to the lockfile. This is not critical, but nice to have.
- 4. Delete the lockfile.
+ 4. Delete the lockfile on exit.
+
+* filesystem/kernel dependent
 
 **General Install:**
 
@@ -45,6 +50,17 @@ or to use it in a script insert:
 . /usr/bin/commandlock || exit 1
 ```
 _before_ the critical section in the parent script. The lock is removed via the trap when the parent script terminates.
+
+NOTE: do not do this:
+```
+. /usr/bin/lock || exit 1
+```
+
+/usr/bin/lock must be used from the command line like (vim has it's own locking layer, but it's just an example):
+```
+lock vim myfile
+```
+
 
 This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore state.
 
@@ -78,3 +94,4 @@ $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock
  - http://sysadvent.blogspot.com/2008/12/day-9-lock-file-practices.html
  - http://apenwarr.ca/log/?m=201012#13
  - https://news.ycombinator.com/item?id=2000349
+ - https://github.com/WoLpH/portalocker
