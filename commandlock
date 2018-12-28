@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/echo source this file
 # commandlock - Atomic locking for commands.
 # https://github.com/jakeogh/commandlock
 
