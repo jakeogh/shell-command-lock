@@ -2,5 +2,5 @@
 # lock - execute command IFF command is not running.
 # https://github.com/jakeogh/commandlock
 
-source /usr/bin/commandlock || exit 1
-"$@"
+. /usr/bin/commandlock || exit 1
+"$@" # bug: need to error out if _this_ script is sourced!
