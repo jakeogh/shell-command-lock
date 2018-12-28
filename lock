@@ -1,6 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 # lock - execute command IFF command is not running.
 # https://github.com/jakeogh/commandlock
+# adapted from:
+# https://stackoverflow.com/questions/2683279/how-to-detect-if-a-script-is-being-sourced
+#
+# Note this is bash-specific. The proactive detection of an errionus "sourcing"
+# of this file instead of /usr/bin/commandlock may not work in other shells.
 
-. /usr/bin/commandlock || exit 1
-"$@" # bug: need to error out if _this_ script is sourced!
+set -o nounset
+
+main()
+{
+    . /usr/bin/commandlock || exit 1
+    "$@"
+}
+
+unset BASH_SOURCE 2>/dev/null
+test ".$0" != ".$BASH_SOURCE" && \
+    { echo "do not source /usr/bin/lock, use /usr/bin/commandlock"; exit 1 ; } \
+    || main "$@"
