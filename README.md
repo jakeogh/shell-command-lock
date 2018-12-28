@@ -42,10 +42,10 @@ Place in $PATH
 **Use:**
 
 ```
-lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
+$ lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
 ```
 
-or to use it in a script insert:
+or to use it in a script, insert:
 ```
 . /usr/bin/commandlock || exit 1
 ```
@@ -56,10 +56,11 @@ NOTE: do not do this:
 . /usr/bin/lock || exit 1
 ```
 
-/usr/bin/lock must be used from the command line like (vim has it's own locking layer, but it's just an example):
+/usr/bin/lock must be used from the command line like:
 ```
-lock vim myfile
+$ lock vim myfile
 ```
+(vim has it's own locking layer, but it's just an example)
 
 
 This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore state.
