@@ -15,7 +15,6 @@ Requires: sh, sha1sum
 
         _At this point, executing the same command (which also uses this script) should fail._
 
- 3. Write $$ (the current PID) to the lockfile. This is not critical, but nice to have.
  4. Delete the lockfile on exit.
 
 * filesystem/kernel dependent

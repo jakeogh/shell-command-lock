@@ -34,8 +34,10 @@ if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then # got lock
     # acquire the lock
     trap 'unlink -- "${lock_cl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
+    # if the script that sourced this modifies the trap, then it's responsible
+    # for deleting the lockfile
 
-    printf "%s" "$$">> "${lock_cl}"
+    #printf "%s" "$$">> "${lock_cl}" # seems like asking for trouble
 else
     printf >&2 'ERROR: [%s] %s %s Locking failed: %s\n' "$$" "$0" "$*" "${lock_cl}"
     printf >&2 'ERROR: [%s] %s %s is/was already running. Exiting (1).\n' "$$" "$0" "$*"
