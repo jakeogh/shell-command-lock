@@ -40,9 +40,24 @@ Place in $PATH
 
 **Use:**
 
+simple example:
 ```
 $ lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
 ```
+
+deliberately attempting to run the same command at the same time:
+```
+$ lock curl https://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg -o /dev/null & lock curl https://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg -o /dev/null
+[1] 26842
+ERROR: [26842] /usr/bin/lock curl https://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg -o /dev/null Locking failed: /dev/shm/commandlock_cb201bdd3d9970730fa58471d8f554db966694d3
+ERROR: [26842] /usr/bin/lock curl https://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg -o /dev/null is/was already running. Exiting (1).
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  698k  100  698k    0     0   334k      0  0:00:02  0:00:02 --:--:--  334k
+[1]+  Exit 1                  lock curl https://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg -o /dev/null
+
+```
+
 
 or to use it to only lock a specific section of a script, insert:
 ```
