@@ -30,7 +30,7 @@ unset lock_name_cl
 
 if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then # got lock
     # the trap must be set after creating lock, otherwise a locked-out script
-    # will delete the lock becuase it set the trap before it attempt to
+    # will delete the lock becuase it set the trap before it attempted to
     # acquire the lock
     trap 'unlink -- "${lock_cl}"' \
         INT HUP ALRM PIPE PROF USR1 USR2 VTALRM STKFLT QUIT ABRT TERM EXIT
