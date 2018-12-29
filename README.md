@@ -45,22 +45,11 @@ Place in $PATH
 $ lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
 ```
 
-or to use it in a script, insert:
+or to use it to only lock a specific section of a script, insert:
 ```
 . /usr/bin/commandlock || exit 1
 ```
 _before_ the critical section in the parent script. The lock is removed via the trap when the parent script terminates.
-
-NOTE: do not do this:
-```
-. /usr/bin/lock || exit 1
-```
-
-/usr/bin/lock must be used from the command line like:
-```
-$ lock vim myfile
-```
-(vim has it's own locking layer, but it's just an example)
 
 
 This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore state.
