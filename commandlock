@@ -7,7 +7,7 @@ type sha1sum > /dev/null || exit 1
 lock_folder_cl="/dev/shm" # use tempfs to delete orphaned locks on reboot
 
 if [ ! -d "${lock_folder_cl}" ]; then # todo: add test for this... not sure how
-    printf 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$*" "${lock_folder_cl}" >&2
+    printf >&2 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$*" "${lock_folder_cl}"
     exit 1
 fi
 
@@ -37,7 +37,7 @@ if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then # got lock
 
     printf "%s" "$$">> "${lock_cl}"
 else
-    printf 'ERROR: [%s] %s %s Locking failed: %s\n' "$$" "$0" "$*" "${lock_cl}" >&2
-    printf 'ERROR: [%s] %s %s is/was already running. Exiting (1).\n' "$$" "$0" "$*" >&2
+    printf >&2 'ERROR: [%s] %s %s Locking failed: %s\n' "$$" "$0" "$*" "${lock_cl}"
+    printf >&2 'ERROR: [%s] %s %s is/was already running. Exiting (1).\n' "$$" "$0" "$*"
     exit 1
 fi
