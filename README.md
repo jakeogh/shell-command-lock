@@ -40,7 +40,6 @@ Place in $PATH
 
 **Use:**
 
-simple example:
 ```
 $ lock wget http://www.wrh.noaa.gov/images/twc/granalyst/kemx_cr_0.jpg
 ```
