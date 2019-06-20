@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 #echo "[$$] $0 Testing source requirement."
 msg_bang=`commandlock`
 if [ -z "${msg_bang##source_this_file*}" ];
@@ -11,10 +10,10 @@ else
     exit 1
 fi
 
-echo "[$$] $0 Finding absolute path of commandlock for bash execution test."
 path=`whereis commandlock | cut -d ' ' -f 2`
-bash "${path}" && { echo "[$$] $0 bash execution test failed." ; exit 1 ; }
+bash "${path}" && { echo "[$$] $0 bash execution test failed for absolute path: ${path}" ; exit 1 ; }
 
+bash commandlock && { echo "[$$] $0 bash execution test failed for relative path." ; exit 1 ; }
 
 #echo "[$$] $0 Source requirement tests passed."
 
