@@ -21,14 +21,14 @@ lock_name_cl=${lock_name_cl%% *}
 if [ "${#lock_name_cl}" != "40" ]; then
     printf >&2 "ERROR: [%s] %s %s lock_name \"%s\"is not 40 bytes long.\n" \
         "$$" "$0" "$*" "${lock_name_cl}"
-     exit 2
+    exit 2
 fi
 
 readonly lock_cl="${lock_folder_cl}/commandlock_${lock_name_cl}"
 unset lock_folder_cl
 unset lock_name_cl
 
-if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then # got lock
+if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then  # got lock
     # the trap must be set after creating lock, otherwise a locked-out script
     # will delete the lock becuase it set the trap before it attempted to
     # acquire the lock
