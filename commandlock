@@ -1,4 +1,4 @@
-#!/bin/echo "source this file"
+#!/bin/echo source_this_file
 # commandlock - Atomic locking for commands.
 # https://github.com/jakeogh/commandlock
 

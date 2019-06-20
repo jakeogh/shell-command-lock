@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: test the #! echo
+
 echo "[$$] $0 in a non-critical section, about to acquire lock"
 . /usr/bin/commandlock
 echo "[$$] $0 in a critical section, about to test lock"
