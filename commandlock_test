@@ -3,10 +3,10 @@
 # TODO: test the #! echo
 
 echo "[$$] $0 in a non-critical section, about to acquire lock"
-. /usr/bin/commandlock
+. commandlock
 echo "[$$] $0 in a critical section, about to test lock"
 
-/usr/bin/commandlock_test && { echo "[$$] $0 ERROR: Locking Failed." ; exit 1 ; } || \
+commandlock_test && { echo "[$$] $0 ERROR: Locking Failed." ; exit 1 ; } || \
     echo "[$$] $0 YOU SHOULD SEE 2 ERROR MESSAGES WITH THE SAME PID != [$$]"
     echo "[$$] $0 You shoud NOT see a message starting with \"unlink: cannot unlink\""
     echo "[$$] $0 Lock test completed."
