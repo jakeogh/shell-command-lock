@@ -10,13 +10,20 @@ else
     exit 1
 fi
 
+# todo: check for "source_this_file" output in addition to exit code
+# todo: re-evaluate #!/bin/echo per greycat; exits 0 on "error"
+# todo: use stderr
+
+#echo "[$$] $0 Testing source requirement for bash execution of abs path."
 path=`whereis commandlock | cut -d ' ' -f 2`
-bash "${path}" && { echo "[$$] $0 bash execution test failed for absolute path: ${path}" ; exit 1 ; }
+#echo "[$$] $0 whereis found ${path}"
+bash "${path}" > /dev/null && { echo "[$$] $0 bash execution test failed for absolute path: ${path}" ; exit 1 ; }
+#echo "[$$] $0 source requirement for bash execution of abs path test passed."
 
-bash commandlock && { echo "[$$] $0 bash execution test failed for relative path." ; exit 1 ; }
-
+#echo "[$$] $0 Testing source requirement for bash execution of relative path."
+bash commandlock > /dev/null && { echo "[$$] $0 bash execution test failed for relative path." ; exit 1 ; }
+#echo "[$$] $0 source requirement for bash execution of relative path test passed."
 #echo "[$$] $0 Source requirement tests passed."
-
 
 echo "[$$] $0 in a non-critical section, about to acquire lock"
 . commandlock
