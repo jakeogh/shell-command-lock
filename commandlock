@@ -36,6 +36,8 @@ if [ "${#lock_name_cl}" != "40" ]; then
     exit 2
 fi
 
+# if errexit was set, this line would cause exit before the lock was attempted
+# but _only_ in the shell (interactive or not) that sourced this file, which is insufficient
 readonly lock_cl="${lock_folder_cl}/commandlock_${lock_name_cl}"
 unset lock_folder_cl
 unset lock_name_cl
