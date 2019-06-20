@@ -11,7 +11,7 @@ set -o nounset
 
 main()
 {
-    . /usr/bin/commandlock || exit 1
+    . commandlock || exit 1
     "$@"
 }
 
