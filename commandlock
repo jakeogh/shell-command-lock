@@ -9,16 +9,18 @@
 #    *) echo "S source_this_file"; exit 1;;
 #esac
 
+set -o nounset
+
 sourced() {
     [[ ${FUNCNAME[1]} = source ]]
 }
-sourced || { echo "source_this_file" ; exit 1 ; }
+sourced || { echo "source_this_file" ; exit 1 ; }  # specific string for testing
 
 type sha1sum > /dev/null || exit 1
 
-lock_folder_cl="/dev/shm" # use tempfs to delete orphaned locks on reboot
+lock_folder_cl="/dev/shm"  # use tempfs to delete orphaned locks on reboot
 
-if [ ! -d "${lock_folder_cl}" ]; then # todo: add test for this... not sure how
+if [ ! -d "${lock_folder_cl}" ]; then  # todo: add test for this
     printf >&2 'ERROR: [%s] %s %s %s not a directory.\n' "$$" "$0" "$*" "${lock_folder_cl}"
     exit 1
 fi
@@ -36,6 +38,8 @@ if [ "${#lock_name_cl}" != "40" ]; then
     exit 2
 fi
 
+# could check here for emptyhash da39a3ee5e6b4b0d3255bfef95601890afd80709
+
 # if errexit was set, this line would cause exit before the lock was attempted
 # but _only_ in the shell (interactive or not) that sourced this file, which is insufficient
 readonly lock_cl="${lock_folder_cl}/commandlock_${lock_name_cl}"
@@ -51,7 +55,7 @@ if ( set -o noclobber; : > "${lock_cl}" ) 2> /dev/null; then  # got lock
     # if the script that sourced this modifies the trap, then it's responsible
     # for deleting the lockfile
 
-    #printf "%s" "$$">> "${lock_cl}" # seems like asking for trouble
+    #printf "%s" "$$">> "${lock_cl}"  # asking for trouble
 else
     printf >&2 'ERROR: [%s] %s %s Locking failed: %s\n' "$$" "$0" "$*" "${lock_cl}"
     printf >&2 'ERROR: [%s] %s %s is/was already running. Exiting (1).\n' "$$" "$0" "$*"
