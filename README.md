@@ -98,3 +98,4 @@ $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock
  - http://apenwarr.ca/log/?m=201012#13
  - https://news.ycombinator.com/item?id=2000349
  - https://github.com/WoLpH/portalocker
+ - https://news.ycombinator.com/item?id=22212338
