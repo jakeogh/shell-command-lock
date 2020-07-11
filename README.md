@@ -1,12 +1,11 @@
-**commandlock - Atomic locking for commands**
+**commandlock - Advisory locking for commands**
 
 https://github.com/jakeogh/commandlock
 
-Prevent identical commands from executing concurrently.
+GOAL: Prevent identical commands from executing concurrently.
 
 A command is the combination of the program and it's arguments: $0 $*
 
-Requires: sh, sha1sum
 
 **Theory:**
 
@@ -65,12 +64,12 @@ or to use it to only lock a specific section of a script, insert:
 _before_ the critical section in the parent script. The lock is removed via the trap when the parent script terminates.
 
 
-This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so we don't need to save and restore state.
+This script should have no effect on the parent script other than locking. The variable names are set readonly to prevent collisions with names in the parent script. The set commands are done in subshells so there is no state to save and restore.
 
 **Design notes:**
 
-- Attempts to be strictly POSIX compliant.
-- Does not depend on bash specific features.
+- Attempts to be POSIX compliant.
+- Does not depend on bash-specific features.
 - Redirection using noclobber is the atomic locking primitive instead of mkdir because it's faster.
 
 **Benchmark mkdir vs noclobber:**
@@ -83,6 +82,11 @@ $ time for x in {1..24000} ; do set -o noclobber; :> lock ; /usr/bin/unlink lock
 
 - If the trap is re-defined in the parent script, that trap will need to handle deleting the lock.
 - The lockfile is orphaned if an exit signal happens after the lock is obtained and before the trap is set.
+
+**Requires:**
+
+ - sh
+ - sha1sum
 
 **More info:**
 
