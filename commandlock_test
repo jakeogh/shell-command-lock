@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# fixme: extra line at bottom and top of test if ./commandloc_test is run from here instead of /bin
+# fixme: extra line at bottom and top of test if ./commandloc_test is run from here(?) instead of /bin
 
 #echo "[$$] $0 Testing source requirement."
-msg_bang=`commandlock`
+msg_bang=$(commandlock)
 if [ -z "${msg_bang##source_this_file*}" ];
 then
     :
